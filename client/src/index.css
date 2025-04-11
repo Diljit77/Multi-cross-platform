@@ -1,0 +1,31 @@
+@import "tailwindcss";
+/* theme.css */
+body {
+    margin: 0;
+    padding: 0;
+    transition: background 0.3s, color 0.3s;
+  }
+  
+  /* Light Theme (Default) */
+  body.light {
+    background-color: #ffffff;
+    color: #000000;
+  }
+  
+  /* Dark Theme */
+  body.dark {
+    background-color: #121212;
+    color: #ffffff;
+  }
+  
+  /* Example: Styling components */
+  .card {
+    background-color: #f9f9f9;
+    padding: 1rem;
+    border-radius: 8px;
+  }
+  
+  body.dark .card {
+    background-color: #1f1f1f;
+  }
+  
