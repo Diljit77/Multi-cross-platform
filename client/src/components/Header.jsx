@@ -1,10 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // components/Header.js
 export default function Header() {
-  const logout=(e)=>{
-    e.preventDefault();
+  const history=useNavigate();
+  const logout=()=>{
+
     localStorage.removeItem("token");
+    history("/login")
   }
     return (
       <div className="flex justify-between items-center p-4  bg-white shadow-md">
@@ -12,9 +14,9 @@ export default function Header() {
         <div className="flex gap-4">
           <button className="text-gray-600">🌗 Toggle Theme</button>
         <Link to={'/login'}
-        ><button className="bg-blue-500 text-white px-4 py-1 rounded">Login</button>
+        ><button className="bg-blue-500 text-white px-4 py-1 rounded cursor-pointer">Login</button>
             </Link>  
-          <button className="bg-gray-300 px-4 py-1 rounded" onClick={logout}>logout</button>
+          <button className="bg-gray-300 px-4 py-1 rounded cursor-pointer" onClick={()=>logout()}>logout</button>
         </div>
       </div>
     );

@@ -7,8 +7,37 @@ import { MyContext } from "../App";
 const Login = () => {
   const [email, setEmail] = useState("");
   const history=useNavigate();
+  const context=useContext(MyContext);
+  const forgetpassword=(e)=>{
+    e.preventDefault();
+    if(email===""){
+      context.setalertbox({
+        msg:"please fill the email ",
+        error:true,
+        open:true
+      })
+    }
+PostData("/api/auth//forgetpassword",{email}).then((res)=>{
+  if(res.success===true){
+    context.setalertbox({
+      msg:res.message,
+      error:false,
+      open:true
+    })
+ localStorage.setItem("Email",email);
+history("/verifyotp");   
+
+  }else{
+    context.setalertbox({
+      msg:res.message,
+      error:true,
+      open:true
+    })
+  }
+})
+  }
   const [password, setPassword] = useState("");
-const context=useContext(MyContext);
+
   const handleLogin = (e) => {
     e.preventDefault();
     console.log("Logging in with:", { email, password });
@@ -66,7 +95,7 @@ history("/")
         </div>
 
         <div className="text-right mb-4">
-          <Link to="/verifyotp" className="text-sm text-blue-500 hover:underline">
+          <Link to="/verifyotp" onClick={(e)=>forgetpassword(e)} className="text-sm text-blue-500 hover:underline">
             Forgot Password?
           </Link>
         </div>

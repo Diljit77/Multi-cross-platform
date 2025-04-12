@@ -1,9 +1,11 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
+import { PostData } from "../utils/api";
+import { MyContext } from "../App";
 
 const VerifyOTP = () => {
   const inputRefs = useRef([]);
   const [otp, setOtp] = useState(new Array(6).fill(""));
-
+const context =useContext(MyContext);
   const handleChange = (element, index) => {
     const value = element.value.replace(/[^0-9]/g, "");
     if (!value) return;
@@ -51,7 +53,25 @@ const VerifyOTP = () => {
     e.preventDefault();
     const enteredOTP = otp.join("");
     console.log("Submitted OTP:", enteredOTP);
-    // Send OTP to backend here
+    const email=localStorage.getItem("Email");
+    PostData("/api/auth/verifyotp",{email,otp}).then((res)=>{
+      if(res.success===true){
+        context.setalertbox({
+          msg:res.message,
+          error:false,
+          open:true
+        })
+     localStorage.setItem("Email",email);
+    history("/resetpassword");   
+    
+      }else{
+        context.setalertbox({
+          msg:res.message,
+          error:true,
+          open:true
+        })
+      }
+    }).catch(err=>console.log(err))
   };
 
   return (
@@ -90,7 +110,7 @@ const VerifyOTP = () => {
           <button
             type="button"
             className="text-blue-500 hover:underline"
-            onClick={() => console.log("Resend OTP")}
+            
           >
             Resend
           </button>

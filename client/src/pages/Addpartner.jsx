@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { MyContext } from "../App";
 import { PostData } from "../utils/api";
+import { useNavigate } from "react-router-dom";
 
 const AddPickupPartnerDialog = ({ isOpen, onClose, onSubmit }) => {
   const context=useContext(MyContext);
@@ -10,7 +11,7 @@ const AddPickupPartnerDialog = ({ isOpen, onClose, onSubmit }) => {
   const [city,setcity]=useState("");
   const [earningperorder,setearningperorder]=useState("")
   const [formdata,setformdata]=useState({});
-
+const history=useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!name || !contact) return;
@@ -33,6 +34,8 @@ PostData("/api/partners/",formdata).then((res)=>{
         error:false,
         open:true
       })
+      history("/");
+
     }else{
  
         context.setalertbox({
